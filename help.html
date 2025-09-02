@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FinShield Help - Bankruptcy Prediction Explained</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #f9fafd;
+      color: #2c3e50;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #2c3e50;
+      color: white;
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      font-weight: 600;
+      font-size: 1.2em;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 20px;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+      margin: 0 15px;
+      cursor: pointer;
+    }
+    nav a:hover {
+      background-color: #34495e;
+    }
+
+    main {
+      margin: 90px auto 40px;
+      max-width: 900px;
+      padding: 0 20px;
+    }
+
+    h1, h2 {
+      color: #1f2d3d;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    section {
+      margin-bottom: 40px;
+      background: white;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    }
+
+    p {
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      color: #3a4a60;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+    }
+
+    /* FAQ style */
+    details {
+      background: #e8f0fe;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-top: 15px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      color: #2c3e50;
+      font-weight: 600;
+    }
+    details[open] {
+      background: #cfe0fc;
+    }
+    summary {
+      outline: none;
+      font-size: 1.1em;
+    }
+    details p {
+      font-weight: 400;
+      margin-top: 10px;
+      color: #444;
+      font-size: 1em;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav {
+        font-size: 1em;
+      }
+      main {
+        padding: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="index.html">← Back to Home</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Help &amp; Information About Bankruptcy Prediction</h1>
+
+  <section>
+    <h2>Understanding Bankruptcy</h2>
+    <p>Bankruptcy is a legal process through which companies unable to meet their debt obligations seek protection or reorganization. Early detection of financial distress helps prevent losses to investors, employees, and creditors.</p>
+    <p>FinShield helps businesses and analysts by providing early bankruptcy risk warnings based on financial data.</p>
+  </section>
+
+  <section>
+    <h2>About the FinShield Model</h2>
+    <p>FinShield uses advanced machine learning, specifically an <strong>XGBoost classifier</strong>, to predict bankruptcy risk based on historical financial data. Key financial ratios and indicators are used as input features:</p>
+    <ul>
+      <li><strong>Profitability Ratios:</strong> Such as return on assets (ROA), return on equity (ROE).</li>
+      <li><strong>Liquidity Ratios:</strong> Current ratio, quick ratio to assess the company’s ability to pay short-term debts.</li>
+      <li><strong>Leverage Ratios:</strong> Debt-to-equity ratio, which shows financial risk due to borrowing.</li>
+      <li><strong>Cash Flow Metrics:</strong> Operating cash flow trends that reflect financial health.</li>
+    </ul>
+    <p>The model was trained on a large dataset of company financials with known bankruptcy outcomes and validated for over 90% accuracy, making it a reliable tool for risk prediction.</p>
+  </section>
+
+  <section>
+    <h2>How to Use FinShield</h2>
+    <p>To get started with FinShield:</p>
+    <ul>
+      <li>Upload your company’s financial statements including income statements, balance sheets, and cash flow reports.</li>
+      <li>FinShield processes the data and provides a risk score indicating the likelihood of bankruptcy.</li>
+      <li>Download detailed reports to review the insights or share with stakeholders.</li>
+    </ul>
+    <p>Our goal is to empower you with data-driven insights so you can take proactive financial decisions.</p>
+  </section>
+
+  <section>
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What financial data formats are accepted?</summary>
+      <p>We accept Excel (.xlsx), CSV files, and some PDF formats containing structured financial statements.</p>
+    </details>
+    <details>
+      <summary>Is my financial data kept confidential?</summary>
+      <p>Yes. All data is encrypted during upload and processing, and we never store your data without explicit permission.</p>
+    </details>
+    <details>
+      <summary>How often should I run the bankruptcy check?</summary>
+      <p>We recommend quarterly checks or whenever there are significant changes in your company’s financial status.</p>
+    </details>
+    <details>
+      <summary>Can I customize the risk thresholds?</summary>
+      <p>Currently, FinShield uses default risk thresholds based on industry standards, but we plan to introduce customizable settings soon.</p>
+    </details>
+  </section>
+</main>
+
+</body>
+</html>

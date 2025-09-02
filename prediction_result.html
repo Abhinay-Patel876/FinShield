@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FinShield - Prediction Results</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #fff;
+      color: #2c3e50;
+      padding-top: 70px; /* space for fixed header */
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #2c3e50;
+      color: white;
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+      font-weight: 600;
+      font-size: 1.1em;
+      user-select: none;
+    }
+    nav {
+      display: flex;
+      gap: 40px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #f9c74f;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2.6em;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .result-summary {
+      background: #f0f4f8;
+      border-radius: 12px;
+      padding: 30px 25px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      color: #34495e;
+      line-height: 1.6;
+      font-size: 1.15em;
+    }
+
+    .risk-level {
+      font-weight: 700;
+      margin-top: 15px;
+    }
+
+    .risk-low {
+      color: #27ae60;
+    }
+    .risk-medium {
+      color: #f39c12;
+    }
+    .risk-high {
+      color: #e74c3c;
+    }
+
+    .chart-container {
+      margin-top: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .button-group {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    button {
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      padding: 15px 35px;
+      font-size: 1.1em;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #f9c74f;
+      color: #2c3e50;
+    }
+
+    /* Simple bar chart style */
+    .bar-chart {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 30px;
+    }
+
+    .bar {
+      width: 100px;
+      background: #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .bar:hover {
+      background-color: #f9c74f;
+    }
+
+    .bar-fill {
+      height: 150px;
+      background-color: #2c3e50;
+      border-radius: 8px 8px 0 0;
+      transition: height 0.5s ease;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1em;
+      padding-bottom: 10px;
+    }
+
+    .bar-label {
+      margin-top: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="index.html" title="Go to Home Page">Home</a>
+    <a href="index.html" title="Go to Login Page">Login</a>
+    <a href="index.html" title="Go to Signup Page">Sign Up</a>
+  </nav>
+</header>
+
+<main>
+  <h2>Bankruptcy Prediction Results</h2>
+
+  <div class="result-summary">
+    <p>
+      Based on the financial data uploaded, FinShield's advanced XGBoost model has analyzed your company's bankruptcy risk.
+    </p>
+    <p class="risk-level">
+      <strong>Predicted Risk Level:</strong> 
+      <span id="riskLevel" class="risk-low">Low Risk</span>
+    </p>
+    <p>
+      This classification considers multiple financial ratios and indicators including liquidity, profitability, leverage, and cash flow stability.
+    </p>
+  </div>
+
+  <div class="chart-container" aria-label="Financial Indicator Scores">
+    <h3>Key Financial Indicator Scores</h3>
+    <div class="bar-chart">
+      <div class="bar" tabindex="0" aria-describedby="score1-desc">
+        <div class="bar-fill" style="height: 120px;">85%</div>
+        <div class="bar-label">Liquidity</div>
+        <div id="score1-desc" class="sr-only">Liquidity score is 85 percent.</div>
+      </div>
+      <div class="bar" tabindex="0" aria-describedby="score2-desc">
+        <div class="bar-fill" style="height: 90px; background-color:#f9c74f;">65%</div>
+        <div class="bar-label">Profitability</div>
+        <div id="score2-desc" class="sr-only">Profitability score is 65 percent.</div>
+      </div>
+      <div class="bar" tabindex="0" aria-describedby="score3-desc">
+        <div class="bar-fill" style="height: 105px; background-color:#e67e22;">75%</div>
+        <div class="bar-label">Leverage</div>
+        <div id="score3-desc" class="sr-only">Leverage score is 75 percent.</div>
+      </div>
+      <div class="bar" tabindex="0" aria-describedby="score4-desc">
+        <div class="bar-fill" style="height: 135px; background-color:#27ae60;">95%</div>
+        <div class="bar-label">Cash Flow</div>
+        <div id="score4-desc" class="sr-only">Cash flow score is 95 percent.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-group">
+    <button onclick="window.location.href='upload.html'">Upload New Data</button>
+    <button onclick="window.location.href='index.html'">Back to Home</button>
+  </div>
+</main>
+
+<script>
+  // You can dynamically update risk level here or fetch from API
+  // For demo, we simulate medium risk after 2 seconds
+  setTimeout(() => {
+    const riskLevelElem = document.getElementById('riskLevel');
+    riskLevelElem.textContent = 'Medium Risk';
+    riskLevelElem.className = 'risk-medium';
+  }, 2000);
+</script>
+
+</body>
+</html>
