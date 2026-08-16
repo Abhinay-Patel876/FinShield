@@ -6,3 +6,6 @@ xgboost
 matplotlib
 seaborn
 streamlit
+joblib
+plotly
+openpyxl
