@@ -1,221 +1,244 @@
-<header style="
-  position: fixed; 
-  top: 0; 
-  width: 100%; 
-  background: #2c3e50; 
-  color: white; 
-  display: flex; 
-  justify-content: center; 
-  padding: 15px 0; 
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  z-index: 1000;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-">
-  <nav style="display: flex; gap: 60px; font-weight: 600; font-size: 1.1em;">
-    <a href="index.html" style="color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; transition: background-color 0.3s;" 
-       onmouseover="this.style.backgroundColor='#34495e';" 
-       onmouseout="this.style.backgroundColor='transparent';"
-       >
-      Home
-    </a>
-    <a href="index.html" style="color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; transition: background-color 0.3s;" 
-       onclick="if(location.pathname.endsWith('index.html') || location.pathname === '/') { event.preventDefault(); flipToLogin(); }"
-       onmouseover="this.style.backgroundColor='#34495e';" 
-       onmouseout="this.style.backgroundColor='transparent';"
-       >
-      Login
-    </a>
-    <a href="index.html" style="color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; transition: background-color 0.3s;" 
-       onclick="if(location.pathname.endsWith('index.html') || location.pathname === '/') { event.preventDefault(); flipToSignup(); }"
-       onmouseover="this.style.backgroundColor='#34495e';" 
-       onmouseout="this.style.backgroundColor='transparent';"
-       >
-      Sign Up
-    </a>
-  </nav>
-</header>
-
-<script>
-  const card = document.getElementById('card');
-
-  function flipToLogin() {
-    card.classList.remove('flipped');
-    card.scrollIntoView({behavior: 'smooth'});
-  }
-
-  function flipToSignup() {
-    card.classList.add('flipped');
-    card.scrollIntoView({behavior: 'smooth'});
-  }
-</script>
-
-
-<section id="home" style="padding: 60px 20px; max-width: 1100px; margin: auto; text-align: center;">
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome to FinShield - Financial Risk &amp; Bankruptcy Prediction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
-    /* Scoped styles only for #home */
-    #home .feature-card {
+    * {
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: #2c3e50;
+      padding-top: 70px;
+    }
+    header {
+      position: fixed; 
+      top: 0; 
+      width: 100%; 
+      background: #2c3e50; 
+      color: white; 
+      display: flex; 
+      justify-content: center; 
+      padding: 15px 0; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    nav {
+      display: flex;
+      gap: 30px;
+      font-weight: 600;
+      font-size: 1.1em;
+      align-items: center;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    nav a:hover, nav a.active {
+      color: #f9c74f;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    section#home {
+      padding: 50px 20px 80px;
+      max-width: 1100px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 2.8em;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2em;
+      line-height: 1.8;
+      color: #555;
+      max-width: 900px;
+      margin: 0 auto 40px auto;
+    }
+
+    .feature-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .feature-card {
       padding: 25px 20px;
       border-radius: 16px;
-      width: 260px;
+      width: 245px;
       min-height: 200px;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       text-align: center;
       cursor: default;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.6s forwards;
       color: #fff;
       display: flex;
       flex-direction: column;
       justify-content: center;
       gap: 12px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
-    /* Colorful gradient backgrounds for each card */
-    #home .feature-card:nth-child(1) {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      animation-delay: 0.2s;
-    }
-    #home .feature-card:nth-child(2) {
-      background: linear-gradient(135deg, #f7971e, #ffd200);
-      animation-delay: 0.4s;
-      color: #333;
-    }
-    #home .feature-card:nth-child(3) {
-      background: linear-gradient(135deg, #43cea2, #185a9d);
-      animation-delay: 0.6s;
-    }
-    #home .feature-card:nth-child(4) {
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      animation-delay: 0.8s;
-    }
-
-    #home .feature-card:hover {
-      transform: translateY(-8px) scale(1.03);
+    .feature-card:hover {
+      transform: translateY(-8px) scale(1.02);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
+    .feature-card:nth-child(1) { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .feature-card:nth-child(2) { background: linear-gradient(135deg, #f7971e, #ffd200); color: #333; }
+    .feature-card:nth-child(3) { background: linear-gradient(135deg, #43cea2, #185a9d); }
+    .feature-card:nth-child(4) { background: linear-gradient(135deg, #ff758c, #ff7eb3); }
 
-    /* Headings inside cards */
-    #home .feature-card h3 {
-      font-size: 1.4em;
+    .feature-card h3 {
+      font-size: 1.3em;
       margin: 0;
       font-weight: 700;
-      line-height: 1.2;
     }
-
-    /* Paragraphs inside cards */
-    #home .feature-card p {
-      font-size: 1em;
+    .feature-card p {
+      font-size: 0.95em;
       line-height: 1.4;
       margin: 0;
-      font-weight: 500;
     }
 
-    /* FAQ styling */
-    #home details summary {
-      font-size: 1.1em;
-      color: #2c3e50;
-      cursor: pointer;
-      user-select: none;
-      font-weight: 600;
-      transition: color 0.3s ease;
+    .cta-container {
+      margin-top: 50px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
-
-    #home details summary:hover {
-      color: #4158d0;
-    }
-
-    #home details p {
-      color: #555;
-      margin-top: 10px;
-      font-size: 1em;
-      line-height: 1.5;
-    }
-
-    /* Button styling */
-    #home button {
-      padding: 16px 36px;
+    .btn-cta {
+      padding: 16px 34px;
       font-size: 1.1em;
       border: none;
       border-radius: 10px;
       background-color: #2c3e50;
       color: white;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-weight: 600;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s ease;
       box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
+      display: inline-block;
+    }
+    .btn-cta:hover {
+      background-color: #1abc9c;
+      transform: translateY(-2px);
+    }
+    .btn-cta-secondary {
+      background-color: #34495e;
     }
 
-    #home button:hover {
-      background-color: #4158d0;
-      box-shadow: 0 6px 18px rgba(65, 88, 208, 0.6);
+    .faq-container {
+      margin-top: 60px;
+      text-align: left;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
-
-    /* Animation keyframes */
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .faq-container h3 {
+      color: #2c3e50;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.6em;
+      margin-bottom: 25px;
+    }
+    details {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 14px;
+      cursor: pointer;
+      border: 1px solid #edf2f7;
+    }
+    summary {
+      font-size: 1.05em;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    details p {
+      color: #555;
+      margin-top: 10px;
+      line-height: 1.6;
     }
   </style>
+</head>
+<body>
 
-  <h2 style="font-size: 2.6em; color: #2c3e50; margin-bottom: 20px; font-weight: 700;">
-    Welcome to FinShield – Your Bankruptcy Prediction Partner
+<header>
+  <nav>
+    <a href="Home.html" class="active">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="manual_entry.html">Manual Entry</a>
+    <a href="uploadfinancialdata.html">Upload Data</a>
+    <a href="prediction_result.html">Results</a>
+    <a href="report.html">Reports</a>
+    <a href="help.html">Help</a>
+    <a href="login.html">Login</a>
+  </nav>
+</header>
+
+<section id="home">
+  <h2 class="hero-title">
+    Welcome to FinShield – Early Warning Bankruptcy Intelligence
   </h2>
 
-  <p style="font-size: 1.15em; line-height: 1.9; color: #555; max-width: 900px; margin: 0 auto 40px auto;">
-    Bankruptcy is more than just a financial failure — it's a ripple effect that impacts employees, investors, and communities. FinShield uses cutting-edge AI to help you identify risks early and make proactive decisions that protect your financial future.
+  <p class="hero-subtitle">
+    Bankruptcy is an enterprise risk with cascading impacts for creditors, investors, employees, and suppliers. FinShield unites classical statistical discriminant frameworks (<b>Altman Z-Score</b> and <b>Ohlson O-Score</b>) with calibrated <b>XGBoost Machine Learning</b> to deliver actionable, proactive early warnings.
   </p>
 
-  <!-- Feature Cards -->
-  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; margin-top: 20px;">
+  <div class="feature-grid">
     <div class="feature-card">
-      <h3>🔍 Smart Risk Detection</h3>
-      <p>Automatically detects early signs of bankruptcy based on key financial indicators.</p>
+      <h3>🔍 Smart Risk Early Warning</h3>
+      <p>Flags negative working capital, excessive leverage, and cash burn before crisis point.</p>
     </div>
     <div class="feature-card">
-      <h3>📊 AI-Powered Predictions</h3>
-      <p>Uses an XGBoost-based machine learning model for accurate risk classification.</p>
+      <h3>🤖 XGBoost Machine Learning</h3>
+      <p>Evaluates 10 financial health ratios with 92.7% verified empirical classification accuracy.</p>
     </div>
     <div class="feature-card">
-      <h3>📁 Upload Financial Data</h3>
-      <p>Securely upload balance sheets, cash flow, and income statements for analysis.</p>
+      <h3>✏️ Manual Financial Entry</h3>
+      <p>Immediate single-firm stress testing with fast-fill presets and live real-time recalculation.</p>
     </div>
     <div class="feature-card">
-      <h3>📄 Downloadable Reports</h3>
-      <p>Generate prediction reports in PDF or Excel format for presentations and audits.</p>
+      <h3>📄 Executive PDF &amp; Excel Reports</h3>
+      <p>Instant print-ready PDF and structured Excel workbooks for stakeholders and audits.</p>
     </div>
   </div>
 
-  <!-- Call to Action -->
-  <div style="margin-top: 50px;">
-    <button onclick="document.querySelector('#card').scrollIntoView({ behavior: 'smooth' });">
-      Get Started with FinShield
-    </button>
+  <div class="cta-container">
+    <a href="manual_entry.html" class="btn-cta">✏️ Start with Manual Entry</a>
+    <a href="uploadfinancialdata.html" class="btn-cta btn-cta-secondary">📁 Upload Financial Statements</a>
   </div>
 
-  <!-- FAQ Section -->
-  <div style="margin-top: 60px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
-    <h3 style="color: #2c3e50; text-align: center; font-weight: 700;">Frequently Asked Questions</h3>
-    <details style="margin-top: 20px;">
-      <summary>❓ What kind of data do I need to upload?</summary>
-      <p>We recommend financial data including income statements, balance sheets, and cash flow statements for at least 2–3 fiscal years.</p>
+  <div class="faq-container">
+    <h3>Frequently Asked Questions</h3>
+    <details>
+      <summary>❓ What financial parameters do I need to enter?</summary>
+      <p>To calculate the Altman Z-Score and Ohlson O-Score, you need Total Assets, Current Assets, Current Liabilities, Total Liabilities, Retained Earnings, Sales, EBIT, Net Income, and Operating Cash Flow.</p>
     </details>
-    <details style="margin-top: 20px;">
-      <summary>❓ Is my data secure?</summary>
-      <p>Yes. All uploaded data is encrypted and handled securely, and we do not store it without your consent.</p>
+    <details>
+      <summary>❓ How does the XGBoost model enhance classic scoring?</summary>
+      <p>Classic formulas rely on fixed linear weights from decades ago. Our XGBoost engine analyzes non-linear cross-interactions among liquidity, leverage, and cash-flow trajectories, capturing modern corporate stress patterns.</p>
     </details>
-    <details style="margin-top: 20px;">
-      <summary>❓ How accurate is the prediction model?</summary>
-      <p>FinShield's XGBoost model achieves over 90% accuracy on historical bankruptcy datasets, with high precision and recall.</p>
-    </details>
-    <details style="margin-top: 20px;">
-      <summary>❓ Can I integrate this with my own system?</summary>
-      <p>Yes. FinShield offers API access for enterprise clients. Contact us for integration options.</p>
+    <details>
+      <summary>❓ Can I test sample scenarios without real numbers?</summary>
+      <p>Yes! On the Manual Entry page, we provide instant one-click benchmark presets: Healthy Enterprise, Stressed Retailer, and Critical Distress Manufacturer.</p>
     </details>
   </div>
 </section>
+
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FinShield - Manual Financial Parameter Entry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #f4f7f6;
+      color: #2c3e50;
+      padding-top: 75px;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #2c3e50;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+      font-weight: 600;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.3em;
+      letter-spacing: 0.5px;
+    }
+    nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.95em;
+      transition: color 0.3s ease;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+    nav a:hover, nav a.active {
+      color: #f9c74f;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    main {
+      max-width: 1050px;
+      margin: auto;
+      padding: 30px 20px 60px 20px;
+    }
+    .page-title {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .page-title h2 {
+      font-size: 2.4em;
+      margin: 0 0 10px 0;
+      color: #2c3e50;
+    }
+    .page-title p {
+      font-size: 1.1em;
+      color: #555;
+      max-width: 800px;
+      margin: auto;
+      line-height: 1.5;
+    }
+
+    /* Preset Buttons Bar */
+    .preset-bar {
+      background: #ffffff;
+      padding: 18px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .preset-bar span {
+      font-weight: 700;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .preset-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-preset {
+      padding: 9px 16px;
+      font-size: 0.9em;
+      border: 1px solid #2c3e50;
+      border-radius: 8px;
+      background: #fff;
+      color: #2c3e50;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-preset:hover {
+      background: #2c3e50;
+      color: #fff;
+    }
+
+    .form-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .form-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    .form-section-title {
+      font-size: 1.25em;
+      font-weight: 700;
+      color: #2980b9;
+      margin-top: 0;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #ecf0f1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    @media (max-width: 600px) {
+      .input-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+    .form-group label {
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #34495e;
+    }
+    .form-group .hint {
+      font-size: 0.78em;
+      color: #7f8c8d;
+      margin-top: -2px;
+    }
+    .form-group input {
+      padding: 10px 14px;
+      border: 1.5px solid #dcdde1;
+      border-radius: 8px;
+      font-size: 1em;
+      color: #2c3e50;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      background: #fafbfc;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: #2980b9;
+      box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.15);
+      background: #fff;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.15em;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background 0.3s ease, transform 0.1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .btn-submit:hover {
+      background: #1abc9c;
+      transform: translateY(-2px);
+    }
+
+    /* Live Preview Sticky Sidebar */
+    .preview-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 25px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 95px;
+      height: fit-content;
+    }
+    .preview-title {
+      font-size: 1.2em;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-top: 0;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .live-badge {
+      font-size: 0.7em;
+      background: #27ae60;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .score-block {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-left: 5px solid #2980b9;
+    }
+    .score-block.altman { border-left-color: #3498db; }
+    .score-block.ohlson { border-left-color: #9b59b6; }
+    .score-block.ml { border-left-color: #e67e22; }
+
+    .score-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .score-label {
+      font-size: 0.88em;
+      font-weight: 700;
+      color: #34495e;
+    }
+    .score-val {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+    .score-status {
+      font-size: 0.85em;
+      font-weight: 600;
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .status-safe { background: #d4edda; color: #155724; }
+    .status-grey { background: #fff3cd; color: #856404; }
+    .status-distress { background: #f8d7da; color: #721c24; }
+
+    .helper-text {
+      font-size: 0.8em;
+      color: #7f8c8d;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>FinShield Early Warning</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="manual_entry.html" class="active">Manual Entry</a>
+    <a href="uploadfinancialdata.html">Upload Data</a>
+    <a href="prediction_result.html">Results</a>
+    <a href="report.html">Reports</a>
+    <a href="help.html">Help</a>
+    <a href="login.html">Login</a>
+  </nav>
+</header>
+
+<main>
+  <div class="page-title">
+    <h2>Financial Parameter Entry</h2>
+    <p>
+      Directly input your enterprise's balance sheet, income statement, and cash flow parameters to statistically compute the <b>Altman Z-Score</b> and <b>Ohlson O-Score</b>, while running the <b>XGBoost Machine Learning model</b> for proactive bankruptcy early warnings.
+    </p>
+  </div>
+
+  <!-- Presets Bar -->
+  <div class="preset-bar">
+    <span>⚡ <b>Fast-Fill Benchmark Presets:</b></span>
+    <div class="preset-buttons">
+      <button type="button" class="btn-preset" onclick="loadPreset('healthy')">🟢 Healthy Enterprise</button>
+      <button type="button" class="btn-preset" onclick="loadPreset('stressed')">🟡 Stressed Retailer</button>
+      <button type="button" class="btn-preset" onclick="loadPreset('distressed')">🔴 Critical Distress Firm</button>
+    </div>
+  </div>
+
+  <div class="form-container">
+    <!-- Main Input Form -->
+    <div class="form-card">
+      <form id="financialForm" action="/predict" method="POST">
+        
+        <!-- General Information -->
+        <h3 class="form-section-title">🏢 Company Profile</h3>
+        <div class="input-grid">
+          <div class="form-group full-width">
+            <label for="company_name">Company / Entity Name</label>
+            <input type="text" id="company_name" name="company_name" value="Apex Dynamics Corporation" required />
+          </div>
+        </div>
+
+        <!-- Balance Sheet Metrics -->
+        <h3 class="form-section-title">📑 Balance Sheet Parameters</h3>
+        <div class="input-grid">
+          <div class="form-group">
+            <label for="total_assets">Total Assets ($)</label>
+            <span class="hint">Total book assets owned</span>
+            <input type="number" step="any" id="total_assets" name="total_assets" value="10000000" required />
+          </div>
+
+          <div class="form-group">
+            <label for="current_assets">Current Assets ($)</label>
+            <span class="hint">Cash, receivables, short-term assets</span>
+            <input type="number" step="any" id="current_assets" name="current_assets" value="4500000" required />
+          </div>
+
+          <div class="form-group">
+            <label for="current_liabilities">Current Liabilities ($)</label>
+            <span class="hint">Accounts payable & obligations &lt; 1 yr</span>
+            <input type="number" step="any" id="current_liabilities" name="current_liabilities" value="1800000" required />
+          </div>
+
+          <div class="form-group">
+            <label for="total_liabilities">Total Liabilities ($)</label>
+            <span class="hint">Total short & long-term debt</span>
+            <input type="number" step="any" id="total_liabilities" name="total_liabilities" value="3500000" required />
+          </div>
+
+          <div class="form-group">
+            <label for="retained_earnings">Retained Earnings ($)</label>
+            <span class="hint">Cumulative undistributed earnings</span>
+            <input type="number" step="any" id="retained_earnings" name="retained_earnings" value="2800000" required />
+          </div>
+
+          <div class="form-group">
+            <label for="market_value_equity">Market / Book Value of Equity ($)</label>
+            <span class="hint">Total equity or market capitalization</span>
+            <input type="number" step="any" id="market_value_equity" name="market_value_equity" value="12000000" required />
+          </div>
+        </div>
+
+        <!-- Income Statement & Cash Flow -->
+        <h3 class="form-section-title">📊 Income Statement &amp; Cash Flow Parameters</h3>
+        <div class="input-grid">
+          <div class="form-group">
+            <label for="sales">Total Sales / Revenue ($)</label>
+            <span class="hint">Annual top-line turnover</span>
+            <input type="number" step="any" id="sales" name="sales" value="12500000" required />
+          </div>
+
+          <div class="form-group">
+            <label for="ebit">EBIT / Operating Profit ($)</label>
+            <span class="hint">Earnings before interest and taxes</span>
+            <input type="number" step="any" id="ebit" name="ebit" value="1450000" required />
+          </div>
+
+          <div class="form-group">
+            <label for="net_income">Net Income ($)</label>
+            <span class="hint">Current fiscal year bottom-line</span>
+            <input type="number" step="any" id="net_income" name="net_income" value="980000" required />
+          </div>
+
+          <div class="form-group">
+            <label for="operating_cash_flow">Operating Cash Flow ($)</label>
+            <span class="hint">Funds from Operations (cash generated)</span>
+            <input type="number" step="any" id="operating_cash_flow" name="operating_cash_flow" value="1600000" required />
+          </div>
+
+          <div class="form-group full-width">
+            <label for="net_income_prior">Prior Year Net Income ($)</label>
+            <span class="hint">Used in Ohlson O-Score for consecutive negative loss detection (INTWO)</span>
+            <input type="number" step="any" id="net_income_prior" name="net_income_prior" value="850000" required />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <span>🚀 Run Comprehensive Risk Assessment</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Live Preview Sidebar -->
+    <div class="preview-card">
+      <div class="preview-title">
+        <span>Live Model Preview</span>
+        <span class="live-badge">Live Sync</span>
+      </div>
+
+      <!-- Altman Score Preview -->
+      <div class="score-block altman">
+        <div class="score-header">
+          <span class="score-label">Altman Z-Score</span>
+          <span class="score-val" id="prevZScore">3.85</span>
+        </div>
+        <div>
+          <span class="score-status status-safe" id="prevZZone">Safe Zone</span>
+        </div>
+        <div class="helper-text" id="prevZDesc">
+          Low probability of bankruptcy within 2 years. Strong financial footing.
+        </div>
+      </div>
+
+      <!-- Ohlson Score Preview -->
+      <div class="score-block ohlson">
+        <div class="score-header">
+          <span class="score-label">Ohlson O-Score Default Prob.</span>
+          <span class="score-val" id="prevOhlsonProb">4.2%</span>
+        </div>
+        <div>
+          <span class="score-status status-safe" id="prevOhlsonRisk">Low Risk</span>
+        </div>
+        <div class="helper-text" id="prevOhlsonDesc">
+          Probability of bankruptcy based on 9-factor probabilistic logit model.
+        </div>
+      </div>
+
+      <!-- XGBoost ML Preview -->
+      <div class="score-block ml">
+        <div class="score-header">
+          <span class="score-label">XGBoost ML Risk Score</span>
+          <span class="score-val" id="prevMLProb">6.8%</span>
+        </div>
+        <div>
+          <span class="score-status status-safe" id="prevMLRisk">Low Risk</span>
+        </div>
+        <div class="helper-text">
+          Enforced through 10-ratio gradient boosting classifier (92.7% accuracy).
+        </div>
+      </div>
+
+      <div style="margin-top: 20px; font-size: 0.85em; color: #7f8c8d; text-align: center;">
+        Scores recalculate automatically as you modify financial inputs. Click submit to view the full stakeholder advisory report.
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Presets data
+  const presets = {
+    healthy: {
+      company_name: "Apex Dynamics Corporation",
+      total_assets: 10000000,
+      current_assets: 4500000,
+      current_liabilities: 1800000,
+      total_liabilities: 3500000,
+      retained_earnings: 2800000,
+      market_value_equity: 12000000,
+      sales: 12500000,
+      ebit: 1450000,
+      net_income: 980000,
+      operating_cash_flow: 1600000,
+      net_income_prior: 850000
+    },
+    stressed: {
+      company_name: "Beacon Retail Partners",
+      total_assets: 6000000,
+      current_assets: 2100000,
+      current_liabilities: 1950000,
+      total_liabilities: 4500000,
+      retained_earnings: 400000,
+      market_value_equity: 2200000,
+      sales: 7000000,
+      ebit: 180000,
+      net_income: 45000,
+      operating_cash_flow: 120000,
+      net_income_prior: 210000
+    },
+    distressed: {
+      company_name: "Solvent Depleted Mfg Co",
+      total_assets: 4500000,
+      current_assets: 1100000,
+      current_liabilities: 2400000,
+      total_liabilities: 4800000,
+      retained_earnings: -750000,
+      market_value_equity: 200000,
+      sales: 3200000,
+      ebit: -320000,
+      net_income: -540000,
+      operating_cash_flow: -220000,
+      net_income_prior: -310000
+    }
+  };
+
+  function loadPreset(key) {
+    const data = presets[key];
+    if (!data) return;
+    for (const [field, val] of Object.entries(data)) {
+      const el = document.getElementById(field);
+      if (el) el.value = val;
+    }
+    triggerLiveCalculation();
+  }
+
+  // Live calculation trigger with debounce
+  let debounceTimer = null;
+  function triggerLiveCalculation() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(async () => {
+      const form = document.getElementById('financialForm');
+      const formData = new FormData(form);
+      const payload = {};
+      formData.forEach((val, key) => { payload[key] = val; });
+
+      try {
+        const resp = await fetch('/api/calculate-stats', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const res = await resp.json();
+        if (res.status === 'success') {
+          updatePreviewUI(res);
+        }
+      } catch (err) {
+        console.error("Live calculation failed:", err);
+      }
+    }, 250);
+  }
+
+  function updatePreviewUI(data) {
+    // Altman Z-Score
+    const zScore = data.altman.z_score;
+    const zZone = data.altman.zone;
+    document.getElementById('prevZScore').textContent = zScore;
+    const zBadge = document.getElementById('prevZZone');
+    zBadge.textContent = zZone;
+    zBadge.className = 'score-status ' + (zScore >= 2.99 ? 'status-safe' : zScore >= 1.81 ? 'status-grey' : 'status-distress');
+    document.getElementById('prevZDesc').textContent = data.altman.zone_description;
+
+    // Ohlson O-Score
+    const oProb = data.ohlson.probability_percent;
+    document.getElementById('prevOhlsonProb').textContent = oProb + '%';
+    const oBadge = document.getElementById('prevOhlsonRisk');
+    oBadge.textContent = data.ohlson.risk_category;
+    oBadge.className = 'score-status ' + (oProb < 20 ? 'status-safe' : oProb < 50 ? 'status-grey' : 'status-distress');
+
+    // ML
+    const mlProb = data.ml.bankruptcy_probability_percent;
+    document.getElementById('prevMLProb').textContent = mlProb + '%';
+    const mlBadge = document.getElementById('prevMLRisk');
+    mlBadge.textContent = data.ml.risk_tier;
+    mlBadge.className = 'score-status ' + (mlProb < 25 ? 'status-safe' : mlProb < 60 ? 'status-grey' : 'status-distress');
+  }
+
+  // Attach input listener to all inputs
+  document.querySelectorAll('#financialForm input').forEach(input => {
+    input.addEventListener('input', triggerLiveCalculation);
+  });
+
+  // Run on page load
+  window.addEventListener('DOMContentLoaded', triggerLiveCalculation);
+</script>
+
+</body>
+</html>

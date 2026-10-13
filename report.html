@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FinShield - Reports</title>
+  <title>FinShield - Reports &amp; Downloads</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
@@ -29,9 +29,10 @@
 
     nav {
       display: flex;
-      gap: 40px;
+      gap: 30px;
       font-weight: 600;
       font-size: 1.1em;
+      align-items: center;
     }
 
     nav a {
@@ -39,10 +40,13 @@
       text-decoration: none;
       cursor: pointer;
       transition: color 0.3s ease;
+      padding: 6px 12px;
+      border-radius: 6px;
     }
 
-    nav a:hover {
+    nav a:hover, nav a.active {
       color: #f9c74f;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     main {
@@ -96,29 +100,37 @@
       margin-top: 50px;
       display: flex;
       justify-content: center;
-      gap: 25px;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
-    button {
+    .btn-action {
       background-color: #2c3e50;
       color: white;
-      border: none;
-      padding: 14px 30px;
-      font-size: 1.1em;
+      text-decoration: none;
+      padding: 14px 28px;
+      font-size: 1.05em;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    button:hover {
+    .btn-action:hover {
       background-color: #f9c74f;
       color: #2c3e50;
+      transform: translateY(-2px);
     }
 
-    .download-icon {
-      margin-left: 10px;
+    .btn-excel {
+      background-color: #27ae60;
+    }
+    .btn-excel:hover {
+      background-color: #219653;
+      color: white;
     }
 
     .faq-section {
@@ -155,17 +167,6 @@
       color: #555;
       font-size: 0.95em;
     }
-
-    @media (max-width: 700px) {
-      .report-section {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      button {
-        width: 100%;
-      }
-    }
   </style>
 </head>
 <body>
@@ -173,74 +174,63 @@
 <header>
   <nav>
     <a href="index.html">Home</a>
-    <a href="index.html">Login</a>
-    <a href="index.html">Sign Up</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="manual_entry.html">Manual Entry</a>
+    <a href="uploadfinancialdata.html">Upload Data</a>
+    <a href="prediction_result.html">Results</a>
+    <a href="report.html" class="active">Reports</a>
+    <a href="help.html">Help</a>
+    <a href="login.html">Login</a>
   </nav>
 </header>
 
 <main>
-  <h2>📁 Download & Explore Your FinShield Reports</h2>
+  <h2>📁 Download &amp; Explore Your FinShield Reports</h2>
   <p style="font-size: 1.1em; color: #555; max-width: 800px; margin: 0 auto 40px;">
-    Access detailed insights from FinShield's bankruptcy prediction engine. Download your results, explore model explanations, and use these reports for smart financial planning.
+    Access generated insights from FinShield's bankruptcy early warning engine. Download executive PDF summaries, structured Excel analytical workbooks, and model factor explanations.
   </p>
 
   <div class="report-section">
     <div class="report-card">
-      <h3>📄 PDF Report</h3>
-      <p>A print-ready report including risk classification, visualizations, risk explanations, and summary for executive teams or auditors.</p>
+      <h3>📄 Executive PDF Report</h3>
+      <p>A print-ready formal document including multi-model consensus risk classification, Altman Z breakdown, Ohlson O breakdown, and actionable stakeholder mitigation guidance for board meetings and creditors.</p>
     </div>
     <div class="report-card">
-      <h3>📊 Excel Data</h3>
-      <p>Get raw prediction results, financial metrics, risk probability scores, and indicators for deeper analysis or integration into BI tools.</p>
+      <h3>📊 Multi-Tab Excel Workbook</h3>
+      <p>Structured workbook containing raw financial parameters, computed financial ratios (liquidity, leverage, profitability, cash flow), and itemized early warning triggers for audits or BI integration.</p>
     </div>
     <div class="report-card">
-      <h3>📈 Dashboard Summary</h3>
-      <p>View key financial indicators and live prediction status in a simple, interactive format. Great for teams and quick assessments.</p>
+      <h3>📈 Dynamic Dashboard Overview</h3>
+      <p>Real-time visual breakdown of high-risk corporate trends, XGBoost model precision metrics, and multi-month distress trajectories.</p>
     </div>
   </div>
 
   <div class="button-group">
-    <button onclick="downloadPDF()">Download PDF Report <span class="download-icon">📥</span></button>
-    <button onclick="downloadExcel()">Download Excel Report <span class="download-icon">📊</span></button>
-    <button onclick="window.location.href='index.html'">🔙 Back to Home</button>
+    <a href="/download-report/pdf" class="btn-action">Download PDF Report 📥</a>
+    <a href="/download-report/excel" class="btn-action btn-excel">Download Excel Report 📊</a>
+    <a href="/manual-entry" class="btn-action">✏️ Manual Financial Entry</a>
+    <a href="/index.html" class="btn-action">🏠 Home</a>
   </div>
 
   <div class="faq-section">
     <h3>📌 Frequently Asked Questions</h3>
 
     <details>
-      <summary>What data is included in the PDF report?</summary>
-      <p>The PDF includes risk classification, summary charts, explanation of prediction, and tailored recommendations.</p>
+      <summary>What statistical models are included in the PDF and Excel reports?</summary>
+      <p>Both reports present Edward Altman's Z-Score (with sub-ratios X1-X5), James Ohlson's 9-factor probabilistic O-Score, and FinShield's calibrated XGBoost Machine Learning classification.</p>
     </details>
 
     <details>
       <summary>Can I share these reports with external stakeholders?</summary>
-      <p>Yes, both PDF and Excel formats are designed for professional distribution, including board meetings, investor decks, and audits.</p>
+      <p>Yes, both PDF and Excel formats are designed for professional distribution, including board of directors meetings, commercial lenders, bondholders, and auditors.</p>
     </details>
 
     <details>
       <summary>Is the prediction model explainable?</summary>
-      <p>Yes, the XGBoost model used by FinShield provides feature importance values and decision reasoning visible in the report.</p>
-    </details>
-
-    <details>
-      <summary>How often should I run predictions?</summary>
-      <p>We recommend monthly or quarterly analysis, especially before investment rounds, major expenditures, or compliance checks.</p>
+      <p>Yes. The XGBoost model provides feature importance attributions identifying whether distress risk is primarily driven by working capital shortfalls, leverage burdens, or cash flow depletion.</p>
     </details>
   </div>
 </main>
-
-<script>
-  function downloadPDF() {
-    alert("📄 Downloading your PDF report...");
-    // Replace with actual download logic: window.location.href = 'path-to-pdf.pdf';
-  }
-
-  function downloadExcel() {
-    alert("📊 Downloading your Excel report...");
-    // Replace with actual download logic: window.location.href = 'path-to-excel.xlsx';
-  }
-</script>
 
 </body>
 </html>

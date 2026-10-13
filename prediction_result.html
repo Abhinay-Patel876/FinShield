@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FinShield - Prediction Results</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <title>FinShield - Early Warning Prediction Results</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
     body {
       margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background: #fff;
+      background: #f8fafc;
       color: #2c3e50;
-      padding-top: 70px; /* space for fixed header */
+      padding-top: 75px;
     }
     header {
       position: fixed;
@@ -20,205 +23,564 @@
       background: #2c3e50;
       color: white;
       display: flex;
-      justify-content: center;
-      padding: 15px 0;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
       z-index: 1000;
       font-weight: 600;
-      font-size: 1.1em;
-      user-select: none;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.3em;
     }
     nav {
       display: flex;
-      gap: 40px;
+      gap: 20px;
     }
     nav a {
       color: white;
       text-decoration: none;
       cursor: pointer;
+      font-size: 0.95em;
       transition: color 0.3s ease;
+      padding: 6px 12px;
+      border-radius: 6px;
     }
-    nav a:hover {
+    nav a:hover, nav a.active {
       color: #f9c74f;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     main {
-      max-width: 900px;
+      max-width: 1100px;
       margin: auto;
-      padding: 40px 20px;
+      padding: 30px 20px 60px 20px;
+    }
+
+    .header-banner {
+      background: #fff;
+      border-radius: 14px;
+      padding: 25px 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .header-banner h2 {
+      margin: 0;
+      font-size: 1.8em;
+      color: #2c3e50;
+    }
+    .header-banner .meta-info {
+      font-size: 0.95em;
+      color: #7f8c8d;
+      margin-top: 4px;
+    }
+
+    /* Primary Score Overview Cards */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .overview-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      border-top: 5px solid #2980b9;
+      position: relative;
+    }
+    .overview-card.ml { border-top-color: #3498db; }
+    .overview-card.altman { border-top-color: #e67e22; }
+    .overview-card.ohlson { border-top-color: #9b59b6; }
+    .overview-card.consensus { border-top-color: #27ae60; }
+
+    .overview-card h3 {
+      margin: 0 0 10px 0;
+      font-size: 0.95em;
+      color: #7f8c8d;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .score-large {
+      font-size: 2.2em;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 6px;
+    }
+    .badge-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 0.85em;
+      font-weight: 700;
+    }
+    .badge-safe { background: #d4edda; color: #155724; }
+    .badge-grey { background: #fff3cd; color: #856404; }
+    .badge-distress { background: #f8d7da; color: #721c24; }
+
+    /* Indicator Bars */
+    .section-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 25px 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    }
+    .section-card h3 {
+      margin-top: 0;
+      font-size: 1.3em;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bar-chart-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      min-height: 220px;
+      padding: 20px 10px 10px 10px;
+      background: #f8fafc;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    .bar-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80px;
+    }
+    .bar-track {
+      height: 150px;
+      width: 48px;
+      background: #e2e8f0;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .bar-fill {
+      width: 100%;
+      border-radius: 8px 8px 0 0;
+      transition: height 0.8s ease;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      color: white;
+      font-size: 0.85em;
+      font-weight: 700;
+      padding-top: 6px;
+    }
+    .bar-label {
+      margin-top: 10px;
+      font-weight: 600;
+      font-size: 0.9em;
+      color: #2c3e50;
       text-align: center;
     }
 
-    h2 {
-      font-size: 2.6em;
-      margin-bottom: 20px;
-      color: #2c3e50;
+    /* Model Detailed Breakdown Tables */
+    .model-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-bottom: 30px;
     }
-
-    .result-summary {
-      background: #f0f4f8;
-      border-radius: 12px;
-      padding: 30px 25px;
-      margin-bottom: 40px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      color: #34495e;
-      line-height: 1.6;
-      font-size: 1.15em;
+    @media (max-width: 800px) {
+      .model-grid {
+        grid-template-columns: 1fr;
+      }
     }
-
-    .risk-level {
-      font-weight: 700;
-      margin-top: 15px;
+    .breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92em;
     }
-
-    .risk-low {
-      color: #27ae60;
+    .breakdown-table th, .breakdown-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #edf2f7;
     }
-    .risk-medium {
-      color: #f39c12;
-    }
-    .risk-high {
-      color: #e74c3c;
-    }
-
-    .chart-container {
-      margin-top: 40px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .button-group {
-      margin-top: 40px;
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-    }
-
-    button {
-      background-color: #2c3e50;
-      color: white;
-      border: none;
-      padding: 15px 35px;
-      font-size: 1.1em;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #f9c74f;
-      color: #2c3e50;
-    }
-
-    /* Simple bar chart style */
-    .bar-chart {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 30px;
-    }
-
-    .bar {
-      width: 100px;
-      background: #ddd;
-      border-radius: 8px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .bar:hover {
-      background-color: #f9c74f;
-    }
-
-    .bar-fill {
-      height: 150px;
-      background-color: #2c3e50;
-      border-radius: 8px 8px 0 0;
-      transition: height 0.5s ease;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      color: white;
-      font-weight: 700;
-      font-size: 1.1em;
-      padding-bottom: 10px;
-    }
-
-    .bar-label {
-      margin-top: 8px;
+    .breakdown-table th {
+      background: #f1f5f9;
+      color: #475569;
       font-weight: 600;
-      color: #2c3e50;
     }
+    .breakdown-table tr:hover {
+      background: #f8fafc;
+    }
+
+    /* Alerts and Recommendations */
+    .alert-item {
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .alert-critical {
+      background: #fef2f2;
+      border-left: 5px solid #ef4444;
+      color: #991b1b;
+    }
+    .alert-warning {
+      background: #fffbeb;
+      border-left: 5px solid #f59e0b;
+      color: #92400e;
+    }
+    .rec-list {
+      padding-left: 20px;
+      margin: 0;
+    }
+    .rec-list li {
+      margin-bottom: 10px;
+      line-height: 1.5;
+      color: #334155;
+    }
+
+    /* Action Buttons */
+    .action-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 35px;
+    }
+    .btn {
+      padding: 14px 26px;
+      font-size: 1.05em;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-primary { background: #2c3e50; color: white; }
+    .btn-primary:hover { background: #1abc9c; }
+    .btn-outline { background: white; border: 1.5px solid #2c3e50; color: #2c3e50; }
+    .btn-outline:hover { background: #f1f5f9; }
+    .btn-download { background: #27ae60; color: white; }
+    .btn-download:hover { background: #219653; }
   </style>
 </head>
 <body>
 
 <header>
+  <h1>FinShield Prediction Portal</h1>
   <nav>
-    <a href="index.html" title="Go to Home Page">Home</a>
-    <a href="index.html" title="Go to Login Page">Login</a>
-    <a href="index.html" title="Go to Signup Page">Sign Up</a>
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="manual_entry.html">Manual Entry</a>
+    <a href="uploadfinancialdata.html">Upload Data</a>
+    <a href="prediction_result.html" class="active">Results</a>
+    <a href="report.html">Reports</a>
+    <a href="help.html">Help</a>
+    <a href="login.html">Login</a>
   </nav>
 </header>
 
 <main>
-  <h2>Bankruptcy Prediction Results</h2>
-
-  <div class="result-summary">
-    <p>
-      Based on the financial data uploaded, FinShield's advanced XGBoost model has analyzed your company's bankruptcy risk.
-    </p>
-    <p class="risk-level">
-      <strong>Predicted Risk Level:</strong> 
-      <span id="riskLevel" class="risk-low">Low Risk</span>
-    </p>
-    <p>
-      This classification considers multiple financial ratios and indicators including liquidity, profitability, leverage, and cash flow stability.
-    </p>
+  <!-- Banner -->
+  <div class="header-banner">
+    <div>
+      <h2 id="companyTitle">
+        {% if result and result.company_name %}{{ result.company_name }}{% else %}Apex Dynamics Corporation{% endif %}
+      </h2>
+      <div class="meta-info">
+        Evaluation Engine: <b>FinShield Dual Statistical &amp; XGBoost Machine Learning System</b> |
+        Timestamp: <span id="timestampText">{% if result and result.timestamp %}{{ result.timestamp }}{% else %}Live Snapshot{% endif %}</span>
+      </div>
+    </div>
+    <div>
+      {% set severity = result.advisory.severity if result and result.advisory else 'LOW' %}
+      <span class="badge-pill {% if severity == 'HIGH' %}badge-distress{% elif severity == 'MEDIUM' %}badge-grey{% else %}badge-safe{% endif %}" style="font-size: 1.1em; padding: 8px 16px;">
+        🚨 Early Warning: {{ severity }} RISK
+      </span>
+    </div>
   </div>
 
-  <div class="chart-container" aria-label="Financial Indicator Scores">
-    <h3>Key Financial Indicator Scores</h3>
-    <div class="bar-chart">
-      <div class="bar" tabindex="0" aria-describedby="score1-desc">
-        <div class="bar-fill" style="height: 120px;">85%</div>
-        <div class="bar-label">Liquidity</div>
-        <div id="score1-desc" class="sr-only">Liquidity score is 85 percent.</div>
+  <!-- Primary Score Overview Grid -->
+  <div class="overview-grid">
+    <!-- Machine Learning (XGBoost) -->
+    <div class="overview-card ml">
+      <h3>🤖 XGBoost ML Risk</h3>
+      <div class="score-large" id="mlScore">
+        {% if result and result.ml %}{{ result.ml.bankruptcy_probability_percent }}%{% else %}8.4%{% endif %}
       </div>
-      <div class="bar" tabindex="0" aria-describedby="score2-desc">
-        <div class="bar-fill" style="height: 90px; background-color:#f9c74f;">65%</div>
-        <div class="bar-label">Profitability</div>
-        <div id="score2-desc" class="sr-only">Profitability score is 65 percent.</div>
+      <div>
+        {% set ml_tier = result.ml.risk_tier if result and result.ml else 'Low Risk' %}
+        <span class="badge-pill {% if ml_tier == 'High Risk' %}badge-distress{% elif ml_tier == 'Medium Risk' %}badge-grey{% else %}badge-safe{% endif %}">
+          {{ ml_tier }}
+        </span>
       </div>
-      <div class="bar" tabindex="0" aria-describedby="score3-desc">
-        <div class="bar-fill" style="height: 105px; background-color:#e67e22;">75%</div>
-        <div class="bar-label">Leverage</div>
-        <div id="score3-desc" class="sr-only">Leverage score is 75 percent.</div>
+      <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 8px;">
+        10 Financial Health Ratios (92.7% Empirical Accuracy)
       </div>
-      <div class="bar" tabindex="0" aria-describedby="score4-desc">
-        <div class="bar-fill" style="height: 135px; background-color:#27ae60;">95%</div>
-        <div class="bar-label">Cash Flow</div>
-        <div id="score4-desc" class="sr-only">Cash flow score is 95 percent.</div>
+    </div>
+
+    <!-- Altman Z-Score -->
+    <div class="overview-card altman">
+      <h3>📐 Altman Z-Score</h3>
+      <div class="score-large" id="altmanScore">
+        {% if result and result.altman %}{{ result.altman.z_score }}{% else %}3.62{% endif %}
+      </div>
+      <div>
+        {% set z_zone = result.altman.zone if result and result.altman else 'Safe Zone' %}
+        <span class="badge-pill {% if z_zone == 'Distress Zone' %}badge-distress{% elif z_zone == 'Grey Zone' %}badge-grey{% else %}badge-safe{% endif %}">
+          {{ z_zone }}
+        </span>
+      </div>
+      <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 8px;">
+        Safe: &ge; 2.99 | Grey: 1.81-2.99 | Distress: &lt; 1.81
+      </div>
+    </div>
+
+    <!-- Ohlson O-Score -->
+    <div class="overview-card ohlson">
+      <h3>📈 Ohlson O-Score Probability</h3>
+      <div class="score-large" id="ohlsonScore">
+        {% if result and result.ohlson %}{{ result.ohlson.probability_percent }}%{% else %}5.1%{% endif %}
+      </div>
+      <div>
+        {% set o_risk = result.ohlson.risk_category if result and result.ohlson else 'Low Risk' %}
+        <span class="badge-pill {% if o_risk == 'High Risk' %}badge-distress{% elif o_risk == 'Moderate Risk' %}badge-grey{% else %}badge-safe{% endif %}">
+          {{ o_risk }}
+        </span>
+      </div>
+      <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 8px;">
+        9-Factor Probabilistic Logit Model (1980)
+      </div>
+    </div>
+
+    <!-- Consensus Index -->
+    <div class="overview-card consensus">
+      <h3>🛡️ Early Warning Consensus</h3>
+      <div class="score-large" id="consensusScore">
+        {% if result and result.advisory %}{{ result.advisory.consensus_risk_score }}{% else %}12.5{% endif %}<span style="font-size:0.5em;">/100</span>
+      </div>
+      <div>
+        <span class="badge-pill {% if severity == 'HIGH' %}badge-distress{% elif severity == 'MEDIUM' %}badge-grey{% else %}badge-safe{% endif %}">
+          {{ severity }} Risk Action Required
+        </span>
+      </div>
+      <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 8px;">
+        Weighted Multi-Model Stakeholder Vulnerability Index
       </div>
     </div>
   </div>
 
-  <div class="button-group">
-    <button onclick="window.location.href='upload.html'">Upload New Data</button>
-    <button onclick="window.location.href='index.html'">Back to Home</button>
+  <!-- Key Financial Indicator Scores (4 Pillars) -->
+  <div class="section-card">
+    <h3>📊 Key Financial Health Pillars</h3>
+    <div class="bar-chart-container">
+      {% set pillars = result.ml.pillar_scores if result and result.ml else {'liquidity': 85, 'profitability': 72, 'leverage': 80, 'cash_flow': 90} %}
+      
+      <!-- Liquidity -->
+      <div class="bar-column">
+        <div class="bar-track">
+          <div class="bar-fill" style="height: {{ pillars.liquidity }}%; background-color: #3498db;">
+            {{ pillars.liquidity }}%
+          </div>
+        </div>
+        <div class="bar-label">Liquidity</div>
+      </div>
+
+      <!-- Profitability -->
+      <div class="bar-column">
+        <div class="bar-track">
+          <div class="bar-fill" style="height: {{ pillars.profitability }}%; background-color: #f39c12;">
+            {{ pillars.profitability }}%
+          </div>
+        </div>
+        <div class="bar-label">Profitability</div>
+      </div>
+
+      <!-- Leverage -->
+      <div class="bar-column">
+        <div class="bar-track">
+          <div class="bar-fill" style="height: {{ pillars.leverage }}%; background-color: #e67e22;">
+            {{ pillars.leverage }}%
+          </div>
+        </div>
+        <div class="bar-label">Leverage Safety</div>
+      </div>
+
+      <!-- Cash Flow -->
+      <div class="bar-column">
+        <div class="bar-track">
+          <div class="bar-fill" style="height: {{ pillars.cash_flow }}%; background-color: #27ae60;">
+            {{ pillars.cash_flow }}%
+          </div>
+        </div>
+        <div class="bar-label">Cash Flow</div>
+      </div>
+    </div>
+    <div style="font-size: 0.88em; color: #7f8c8d; text-align: center;">
+      Pillars normalize enterprise liquidity cushions, operating margins, debt headroom, and operating cash generation.
+    </div>
+  </div>
+
+  <!-- Detailed Model Decomposition Tables -->
+  <div class="model-grid">
+    <!-- Altman Details -->
+    <div class="section-card">
+      <h3>📐 Altman Z-Score Breakdown</h3>
+      {% set altman = result.altman if result and result.altman else {'z_score': 3.62, 'z_double_prime': 4.12, 'x1_wc_ta': 0.27, 'x2_re_ta': 0.28, 'x3_ebit_ta': 0.145, 'x4_equity_tl': 3.43, 'x5_sales_ta': 1.25} %}
+      <table class="breakdown-table">
+        <thead>
+          <tr>
+            <th>Parameter / Ratio</th>
+            <th>Value</th>
+            <th>Component Contribution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>X1: Working Capital / Total Assets</b></td>
+            <td>{{ altman.x1_wc_ta }}</td>
+            <td>+{{ (altman.x1_wc_ta * 1.2)|round(3) }}</td>
+          </tr>
+          <tr>
+            <td><b>X2: Retained Earnings / Total Assets</b></td>
+            <td>{{ altman.x2_re_ta }}</td>
+            <td>+{{ (altman.x2_re_ta * 1.4)|round(3) }}</td>
+          </tr>
+          <tr>
+            <td><b>X3: EBIT / Total Assets</b></td>
+            <td>{{ altman.x3_ebit_ta }}</td>
+            <td>+{{ (altman.x3_ebit_ta * 3.3)|round(3) }}</td>
+          </tr>
+          <tr>
+            <td><b>X4: Equity / Total Liabilities</b></td>
+            <td>{{ altman.x4_equity_tl }}</td>
+            <td>+{{ (altman.x4_equity_tl * 0.6)|round(3) }}</td>
+          </tr>
+          <tr>
+            <td><b>X5: Sales / Total Assets</b></td>
+            <td>{{ altman.x5_sales_ta }}</td>
+            <td>+{{ (altman.x5_sales_ta * 0.999)|round(3) }}</td>
+          </tr>
+          <tr style="background: #f8fafc; font-weight: bold;">
+            <td>Total Standard Z-Score</td>
+            <td colspan="2">{{ altman.z_score }} ({{ altman.zone if altman.zone else 'Safe' }})</td>
+          </tr>
+          <tr style="background: #f8fafc;">
+            <td>Private-Firm Z''-Score</td>
+            <td colspan="2">{{ altman.z_double_prime }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Ohlson & ML Details -->
+    <div class="section-card">
+      <h3>📈 Ohlson O-Score &amp; ML Factor Attributions</h3>
+      {% set ohlson = result.ohlson if result and result.ohlson else {'o_score_logit': -2.92, 'tlta': 0.35, 'wcta': 0.27, 'clca': 0.40, 'nita': 0.098, 'futl': 0.457, 'intwo': 0, 'oeneg': 0} %}
+      <table class="breakdown-table">
+        <thead>
+          <tr>
+            <th>Ohlson Indicator</th>
+            <th>Value</th>
+            <th>Benchmark Significance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>TLTA (Total Liabilities / Assets)</b></td>
+            <td>{{ ohlson.tlta }}</td>
+            <td>Debt burden fraction</td>
+          </tr>
+          <tr>
+            <td><b>WCTA (Working Capital / Assets)</b></td>
+            <td>{{ ohlson.wcta }}</td>
+            <td>Short-term buffer cushion</td>
+          </tr>
+          <tr>
+            <td><b>CLCA (Current Liab. / Current Assets)</b></td>
+            <td>{{ ohlson.clca }}</td>
+            <td>Inverse current ratio</td>
+          </tr>
+          <tr>
+            <td><b>NITA (Net Income / Total Assets)</b></td>
+            <td>{{ ohlson.nita }}</td>
+            <td>Asset return capability</td>
+          </tr>
+          <tr>
+            <td><b>FUTL (Cash Flow / Liabilities)</b></td>
+            <td>{{ ohlson.futl }}</td>
+            <td>Cash debt service coverage</td>
+          </tr>
+          <tr>
+            <td><b>INTWO (Consecutive Losses)</b></td>
+            <td>{{ ohlson.intwo }}</td>
+            <td>Flag for multi-year deficit</td>
+          </tr>
+          <tr>
+            <td><b>OENEG (Negative Equity Flag)</b></td>
+            <td>{{ ohlson.oeneg }}</td>
+            <td>Flag for balance sheet insolvency</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Early Warning Alerts & Stakeholder Advisory -->
+  <div class="section-card">
+    <h3>🚨 Stakeholder Early Warning Triggers</h3>
+    {% if result and result.advisory and result.advisory.alerts %}
+      {% for alert in result.advisory.alerts %}
+        <div class="alert-item {% if alert.type == 'CRITICAL' %}alert-critical{% else %}alert-warning{% endif %}">
+          <div style="font-size: 1.3em;">⚠️</div>
+          <div>
+            <b>[{{ alert.category }}] {{ alert.title }}</b>
+            <div style="font-size: 0.9em; margin-top: 3px;">{{ alert.description }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div style="padding: 15px; background: #f0fdf4; border-left: 5px solid #22c55e; border-radius: 8px; color: #166534;">
+        ✅ <b>No Critical Distress Triggers Detected:</b> Working capital, debt service coverage, and operating margins are within stable thresholds.
+      </div>
+    {% endif %}
+
+    <h3 style="margin-top: 25px;">📋 Proactive Stakeholder Recommendations</h3>
+    <ul class="rec-list">
+      {% if result and result.advisory and result.advisory.recommendations %}
+        {% for rec in result.advisory.recommendations %}
+          <li>{{ rec }}</li>
+        {% endfor %}
+      {% else %}
+        <li>Maintain current liquidity buffers and capital allocation discipline.</li>
+        <li>Continue routine quarterly stress testing against adverse macroeconomic or sector shifts.</li>
+        <li>Review opportunities to optimize operational working capital.</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <!-- Action & Download Buttons -->
+  <div class="action-group">
+    <a href="/manual-entry" class="btn btn-outline">✏️ Manual Parameter Entry</a>
+    <a href="/upload" class="btn btn-outline">📁 Upload New Data</a>
+    <a href="/download-report/pdf" class="btn btn-download">📥 Download PDF Report</a>
+    <a href="/download-report/excel" class="btn btn-download">📊 Download Excel Report</a>
+    <a href="/dashboard" class="btn btn-primary">📈 View Executive Dashboard</a>
   </div>
 </main>
-
-<script>
-  // You can dynamically update risk level here or fetch from API
-  // For demo, we simulate medium risk after 2 seconds
-  setTimeout(() => {
-    const riskLevelElem = document.getElementById('riskLevel');
-    riskLevelElem.textContent = 'Medium Risk';
-    riskLevelElem.className = 'risk-medium';
-  }, 2000);
-</script>
 
 </body>
 </html>

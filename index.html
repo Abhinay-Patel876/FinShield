@@ -3,13 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bankruptcy Prediction Portal</title>
+  <title>FinShield - Bankruptcy Prediction Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-     
-
-
     * {
       box-sizing: border-box;
       font-family: 'Roboto', sans-serif;
@@ -17,10 +14,10 @@
 
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background-color: #ffffff; /* Background set to white */
+      background-color: #ffffff;
     }
 
     header {
@@ -36,15 +33,22 @@
 
     header h1 {
       margin: 0;
-      font-size: 1.5em;
+      font-size: 1.4em;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
     nav a {
-      margin-left: 20px;
       text-decoration: none;
       color: #ecf0f1;
       font-weight: bold;
       transition: color 0.3s ease;
+      font-size: 0.95em;
+      padding: 4px 8px;
     }
 
     nav a:hover {
@@ -56,6 +60,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 40px 20px;
     }
 
     .card-container {
@@ -63,8 +68,8 @@
     }
 
     .card {
-      width: 360px;
-      height: 480px;
+      width: 380px;
+      height: 500px;
       position: relative;
       transform-style: preserve-3d;
       transition: transform 0.8s ease;
@@ -80,11 +85,11 @@
       height: 100%;
       top: 0;
       left: 0;
-      padding: 40px;
+      padding: 40px 30px;
       border-radius: 15px;
-      background: rgba(44, 62, 80, 0.1);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -94,43 +99,57 @@
 
     .form-side h2 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      font-size: 1.8em;
     }
 
     .form-side input {
-      background: rgba(44, 62, 80, 0.1);
-      border: none;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
       padding: 12px 15px;
-      margin: 10px 0;
+      margin: 8px 0;
       border-radius: 8px;
       color: #2c3e50;
+      font-size: 1em;
       outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-side input:focus {
+      border-color: #2980b9;
     }
 
     .form-side input::placeholder {
-      color: #666;
+      color: #94a3b8;
     }
 
     .form-side button {
       margin-top: 20px;
-      padding: 12px;
+      padding: 14px;
       background: #2c3e50;
       color: #fff;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
+      font-size: 1.05em;
+      transition: background 0.3s;
     }
 
     .form-side button:hover {
-      background: #34495e;
+      background: #1abc9c;
     }
 
     .form-side p {
       margin-top: 15px;
-      color: #333;
+      color: #64748b;
       text-align: center;
       cursor: pointer;
+      font-size: 0.9em;
+    }
+    .form-side p:hover {
+      color: #2c3e50;
+      text-decoration: underline;
     }
 
     .back {
@@ -147,12 +166,13 @@
     }
 
     @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
       nav {
         flex-wrap: wrap;
-      }
-      nav a {
-        display: block;
-        margin: 10px 0;
+        justify-content: center;
       }
     }
   </style>
@@ -161,16 +181,16 @@
 
   <!-- Header with Navigation -->
   <header>
-    <h1>Bankruptcy Predictor</h1>
+    <h1>FinShield Prediction Portal</h1>
     <nav>
       <a href="Home.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
-      <a href="uploadfinancialdata.html">Upload Financial Data</a>
-      <a href="prediction_result.html">Prediction Results</a>
+      <a href="manual_entry.html">Manual Entry</a>
+      <a href="uploadfinancialdata.html">Upload Data</a>
+      <a href="prediction_result.html">Results</a>
       <a href="report.html">Reports</a>
       <a href="help.html">Help</a>
       <a href="login.html">Login</a>
-      <a href="#">Sign Up</a>
     </nav>
   </header>
 
@@ -181,20 +201,24 @@
         
         <!-- Front: Login -->
         <div class="form-side front">
-          <h2>Login</h2>
-          <input type="text" placeholder="Username" required />
-          <input type="password" placeholder="Password" required />
-          <button onclick="login()">Login</button>
+          <h2>FinShield Login</h2>
+          <form action="/login" method="POST" style="display:flex; flex-direction:column;">
+            <input type="text" name="username" placeholder="Username" required />
+            <input type="password" name="password" placeholder="Password" required />
+            <button type="submit">Sign In to Dashboard</button>
+          </form>
           <p onclick="flipCard()">Don't have an account? Sign up</p>
         </div>
 
         <!-- Back: Signup -->
         <div class="form-side back">
-          <h2>Sign Up</h2>
-          <input type="text" placeholder="Username" required />
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
-          <button onclick="signup()">Sign Up</button>
+          <h2>Create Account</h2>
+          <form action="/signup" method="POST" style="display:flex; flex-direction:column;">
+            <input type="text" name="username" placeholder="Username" required />
+            <input type="email" name="email" placeholder="Email Address" required />
+            <input type="password" name="password" placeholder="Password" required />
+            <button type="submit">Create Stakeholder Account</button>
+          </form>
           <p onclick="flipCard()">Already have an account? Login</p>
         </div>
 
@@ -204,7 +228,7 @@
 
   <!-- Footer -->
   <footer>
-    &copy; 2025 Bankruptcy Predictor. All rights reserved.
+    &copy; 2026 FinShield. Proactive Financial Intelligence &amp; Early Warning System.
   </footer>
 
   <!-- JavaScript -->
@@ -213,14 +237,6 @@
 
     function flipCard() {
       card.classList.toggle('flipped');
-    }
-
-    function login() {
-      alert("Logging in...");
-    }
-
-    function signup() {
-      alert("Signing up...");
     }
   </script>
 

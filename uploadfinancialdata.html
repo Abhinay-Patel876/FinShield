@@ -11,7 +11,7 @@
       font-family: 'Roboto', sans-serif;
       background: #fff;
       color: #2c3e50;
-      padding-top: 70px; /* space for fixed header */
+      padding-top: 70px;
     }
     header {
       position: fixed;
@@ -30,16 +30,20 @@
     }
     nav {
       display: flex;
-      gap: 40px;
+      gap: 30px;
+      align-items: center;
     }
     nav a {
       color: white;
       text-decoration: none;
       cursor: pointer;
       transition: color 0.3s ease;
+      padding: 6px 12px;
+      border-radius: 6px;
     }
-    nav a:hover {
+    nav a:hover, nav a.active {
       color: #f9c74f;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     main {
@@ -59,7 +63,7 @@
       background: #f0f4f8;
       border-radius: 12px;
       padding: 25px 30px;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       color: #34495e;
       line-height: 1.6;
@@ -68,6 +72,33 @@
     .upload-info h3 {
       margin-bottom: 15px;
       color: #2c3e50;
+    }
+
+    .template-box {
+      background: #eef7ee;
+      border: 1px solid #b7e1cd;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-template {
+      background: #27ae60;
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.9em;
+      transition: background 0.2s;
+    }
+    .btn-template:hover {
+      background: #219653;
     }
 
     form.upload-form {
@@ -79,18 +110,20 @@
       flex-direction: column;
       gap: 20px;
       align-items: center;
-      max-width: 500px;
+      max-width: 520px;
       margin: 0 auto;
     }
 
     form.upload-form input[type="file"] {
-      padding: 10px;
+      padding: 12px;
       font-size: 1em;
       border-radius: 8px;
-      border: 2px solid #2c3e50;
+      border: 2px dashed #2c3e50;
       cursor: pointer;
       width: 100%;
       color: #2c3e50;
+      background: #f8fafc;
+      box-sizing: border-box;
     }
 
     form.upload-form button {
@@ -115,19 +148,31 @@
       font-size: 0.9em;
       color: #888;
       margin-top: -10px;
-      margin-bottom: 15px;
+      margin-bottom: 5px;
       text-align: center;
     }
 
+    #result {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 1.1em;
+      font-weight: 600;
+      min-height: 30px;
+    }
   </style>
 </head>
 <body>
 
 <header>
   <nav>
-    <a href="index.html" title="Go to Home Page">Home</a>
-    <a href="index.html" title="Go to Login Page">Login</a>
-    <a href="index.html" title="Go to Signup Page">Sign Up</a>
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="manual_entry.html">Manual Entry</a>
+    <a href="uploadfinancialdata.html" class="active">Upload Financial Data</a>
+    <a href="prediction_result.html">Prediction Results</a>
+    <a href="report.html">Reports</a>
+    <a href="help.html">Help</a>
+    <a href="login.html">Login</a>
   </nav>
 </header>
 
@@ -137,31 +182,32 @@
   <div class="upload-info">
     <h3>Why Upload Your Financial Data?</h3>
     <p>
-      FinShield uses advanced machine learning algorithms to analyze your company's financial health and predict bankruptcy risk. 
-      Uploading accurate financial statements such as balance sheets, income statements, and cash flow reports allows our model to provide reliable, data-driven insights.
+      FinShield uses advanced machine learning algorithms (XGBoost) combined with classical statistical bankruptcy models (Altman Z-Score and Ohlson O-Score) to analyze corporate financial health.
     </p>
     <p>
-      Our XGBoost-based model assesses key indicators including liquidity ratios, debt levels, profitability, and cash flow trends to classify the bankruptcy risk with over 90% accuracy.
+      Our pipeline assesses key indicators including liquidity buffers, debt burdens, operating profitability, and cash flow trends to classify bankruptcy risk and generate early warnings.
     </p>
-    <p>
-      Rest assured, all data is securely handled and encrypted — your privacy and confidentiality are our top priorities.
-    </p>
+
+    <div class="template-box">
+      <span>Need an example file format? Download our verified sample CSV:</span>
+      <a href="/sample-template" class="btn-template">📥 Download Sample Template CSV</a>
+    </div>
   </div>
 
   <form class="upload-form" id="uploadForm">
-    <label for="fileUpload" style="font-weight: 700; font-size: 1.2em; color: #2c3e50;">Select Financial Data File (CSV, XLSX):</label>
-    <input type="file" id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required />
+    <label for="fileUpload" style="font-weight: 700; font-size: 1.2em; color: #2c3e50; text-align: center;">Select Financial Data File (CSV, XLSX):</label>
+    <input type="file" id="fileUpload" name="file" accept=".csv, .xlsx, .xls" required />
 
-    <p class="note">Please ensure the file contains at least 2 years of financial data for best predictions.</p>
+    <p class="note">Upload balance sheet &amp; income statement records for automated processing.</p>
 
-    <button type="submit">Upload & Analyze</button>
+    <button type="submit" id="submitBtn">Upload &amp; Analyze</button>
   </form>
 
-  <div id="result" style="margin-top: 40px; text-align: center; font-size: 1.1em; color: #27ae60; font-weight: 600;"></div>
+  <div id="result"></div>
 </main>
 
 <script>
-  document.getElementById('uploadForm').addEventListener('submit', function(event) {
+  document.getElementById('uploadForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     
     const fileInput = document.getElementById('fileUpload');
@@ -170,23 +216,51 @@
       return;
     }
 
-    const fileName = fileInput.files[0].name;
-    const allowedExtensions = ['csv', 'xlsx'];
-    const fileExtension = fileName.split('.').pop().toLowerCase();
+    const file = fileInput.files[0];
+    const allowedExtensions = ['csv', 'xlsx', 'xls'];
+    const fileExtension = file.name.split('.').pop().toLowerCase();
 
     if (!allowedExtensions.includes(fileExtension)) {
-      alert('Invalid file type! Please upload a CSV or XLSX file.');
+      alert('Invalid file type! Please upload a CSV or Excel (.xlsx) file.');
       return;
     }
 
-    // Simulate upload and analysis
+    const submitBtn = document.getElementById('submitBtn');
     const resultDiv = document.getElementById('result');
-    resultDiv.style.color = '#27ae60';
-    resultDiv.textContent = 'Uploading and analyzing your data...';
 
-    setTimeout(() => {
-      resultDiv.textContent = `Analysis complete! Your financial data (${fileName}) has been successfully processed. FinShield predicts a low bankruptcy risk for your company based on current data.`;
-    }, 2000);
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Analyzing Financial Statements...';
+    resultDiv.style.color = '#2980b9';
+    resultDiv.textContent = `Uploading ${file.name} and computing Altman Z, Ohlson O, and XGBoost Risk...`;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const resp = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await resp.json();
+
+      if (data.status === 'success') {
+        resultDiv.style.color = '#27ae60';
+        resultDiv.textContent = `Analysis complete! Evaluated ${data.data.company_name}. Redirecting to comprehensive results...`;
+        setTimeout(() => {
+          window.location.href = '/prediction_result.html';
+        }, 1200);
+      } else {
+        resultDiv.style.color = '#e74c3c';
+        resultDiv.textContent = `Error: ${data.message || 'Failed to process file'}`;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Upload & Analyze';
+      }
+    } catch (err) {
+      resultDiv.style.color = '#e74c3c';
+      resultDiv.textContent = `Network error: ${err.message}`;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Upload & Analyze';
+    }
   });
 </script>
 
